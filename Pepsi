@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Want Soda?</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 450px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            min-height: 60px; /* Prevents the box from shrinking/jumping when text changes */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #004b93; /* Pepsi Blue */
+            outline: none;
+        }
+        button {
+            background-color: #004b93;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #002f5d;
+        }
+        /* Hidden state for when the input disappears */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="questionText">What soda would you like?</h1>
+        <form id="sodaForm">
+            <input type="text" id="sodaInput" placeholder="Type here..." required autofocus>
+            <br>
+            <button type="submit" id="submitBtn">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const questionText = document.getElementById('questionText');
+        const sodaForm = document.getElementById('sodaForm');
+        const sodaInput = document.getElementById('sodaInput');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Track how many times they've answered without saying Pepsi
+        let stage = 1; 
+
+        sodaForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            
+            const userResponse = sodaInput.value.trim();
+            
+            // Check if they said "Pepsi" (ignores capital letters)
+            if (userResponse.toLowerCase() === 'pepsi') {
+                triggerPepsiSequence();
+                return;
+            }
+
+            // If they didn't say Pepsi, move through the stages
+            if (stage === 1) {
+                questionText.innerText = "PepSI?";
+                stage = 2;
+            } else if (stage === 2) {
+                questionText.innerText = "PepSi, you wanted PEPSI?";
+                stage = 3;
+            } else {
+                // Keep repeating this or looping back until they say Pepsi
+                questionText.innerText = "Are you sure you don't want PEPSI?";
+            }
+
+            sodaInput.value = ''; // Clear the input box
+        });
+
+        function triggerPepsiSequence() {
+            // Change text and completely hide the input box and button
+            questionText.innerText = "ok be right back";
+            sodaInput.classList.add('hidden');
+            submitBtn.classList.add('hidden');
+
+            // Wait exactly 5 seconds (5000 milliseconds)
+            setTimeout(function() {
+                questionText.innerText = "here is Pepsi";
+            }, 5000);
+        }
+    </script>
+
+</body>
+</html>
