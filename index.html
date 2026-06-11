@@ -7,10 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* This darkens the background slightly and loads the exact Pepsi fountain image */
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                        url('https://i.ibb.co/3mYmX7G/pepsi-fountain.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background-color: cyan;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,7 +19,7 @@
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             width: 90%;
             max-width: 450px;
         }
@@ -30,7 +27,7 @@
             color: #333;
             margin-bottom: 20px;
             font-size: 1.8rem;
-            min-height: 60px;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,21 +88,32 @@
         sodaForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const userResponse = sodaInput.value.trim();
+            const userResponse = sodaInput.value.trim().toLowerCase();
             
-            if (userResponse.toLowerCase() === 'pepsi') {
+            /* This checks if the phrase contains 'pepsi' anywhere in the sentence */
+            if (userResponse.includes('pepsi')) {
                 triggerPepsiSequence();
                 return;
             }
 
+            // Dialogue loops if they don't say pepsi
             if (stage === 1) {
                 questionText.innerText = "PepSI?";
                 stage = 2;
             } else if (stage === 2) {
-                questionText.innerText = "PepSi, you wanted PEPSI?";
+                questionText.innerText = "You wanted Pepsi?";
                 stage = 3;
-            } else {
+            } else if (stage === 3) {
+                questionText.innerText = "PepSi, you wanted PEPSI right?!";
+                stage = 4;
+            } else if (stage === 4) {
                 questionText.innerText = "Are you sure you don't want PEPSI?";
+                stage = 5;
+            } else if (stage === 5) {
+                questionText.innerText = "Listen to me. Say PEPSI.";
+                stage = 6;
+            } else {
+                questionText.innerText = "Error: Only PEPSI is currently functional. Try typing PEPSI.";
             }
 
             sodaInput.value = '';
