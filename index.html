@@ -83,37 +83,37 @@
         const sodaInput = document.getElementById('sodaInput');
         const submitBtn = document.getElementById('submitBtn');
 
-        let stage = 1; 
+        // Array containing your 5 specific phrases
+        const dialogues = [
+            "PepSi?",
+            "you want PepSI?",
+            "PepSi PeeepsSI",
+            "Pe Pe Pe pEpSI",
+            "you want pepSi?"
+        ];
+
+        let currentIndex = 0; 
 
         sodaForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const userResponse = sodaInput.value.trim().toLowerCase();
             
-            /* This checks if the phrase contains 'pepsi' anywhere in the sentence */
+            // Checks if 'pepsi' is typed anywhere
             if (userResponse.includes('pepsi')) {
                 triggerPepsiSequence();
                 return;
             }
 
-            // Dialogue loops if they don't say pepsi
-            if (stage === 1) {
-                questionText.innerText = "PepSI?";
-                stage = 2;
-            } else if (stage === 2) {
-                questionText.innerText = "You wanted Pepsi?";
-                stage = 3;
-            } else if (stage === 3) {
-                questionText.innerText = "PepSi, you wanted PEPSI right?!";
-                stage = 4;
-            } else if (stage === 4) {
-                questionText.innerText = "Are you sure you don't want PEPSI?";
-                stage = 5;
-            } else if (stage === 5) {
-                questionText.innerText = "Listen to me. Say PEPSI.";
-                stage = 6;
-            } else {
-                questionText.innerText = "Error: Only PEPSI is currently functional. Try typing PEPSI.";
+            // Show the current dialogue from the list
+            questionText.innerText = dialogues[currentIndex];
+
+            // Move to the next dialogue phrase
+            currentIndex++;
+
+            // If we reach the end of the list, loop back to the first phrase (index 0)
+            if (currentIndex >= dialogues.length) {
+                currentIndex = 0;
             }
 
             sodaInput.value = '';
@@ -121,14 +121,3 @@
 
         function triggerPepsiSequence() {
             questionText.innerText = "ok be right back";
-            sodaInput.classList.add('hidden');
-            submitBtn.classList.add('hidden');
-
-            setTimeout(function() {
-                questionText.innerText = "here is Pepsi";
-            }, 5000);
-        }
-    </script>
-
-</body>
-</html>
