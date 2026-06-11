@@ -83,7 +83,7 @@
         const sodaInput = document.getElementById('sodaInput');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Array containing your 5 specific phrases
+        // Clean array containing your 5 specific dialogue strings with exact casing
         const dialogues = [
             "PepSi?",
             "you want PepSI?",
@@ -99,19 +99,19 @@
             
             const userResponse = sodaInput.value.trim().toLowerCase();
             
-            // Checks if 'pepsi' is typed anywhere
+            /* Triggers if phrase contains 'pepsi' anywhere */
             if (userResponse.includes('pepsi')) {
                 triggerPepsiSequence();
                 return;
             }
 
-            // Show the current dialogue from the list
+            // Updates the H1 text box with the current step's dialogue phrase
             questionText.innerText = dialogues[currentIndex];
 
-            // Move to the next dialogue phrase
+            // Advance to the next position index for the next click
             currentIndex++;
 
-            // If we reach the end of the list, loop back to the first phrase (index 0)
+            // Resets back to 0 perfectly after hitting the maximum array length to keep looping
             if (currentIndex >= dialogues.length) {
                 currentIndex = 0;
             }
@@ -121,3 +121,14 @@
 
         function triggerPepsiSequence() {
             questionText.innerText = "ok be right back";
+            sodaInput.classList.add('hidden');
+            submitBtn.classList.add('hidden');
+
+            setTimeout(function() {
+                questionText.innerText = "here is Pepsi";
+            }, 5000);
+        }
+    </script>
+
+</body>
+</html>
