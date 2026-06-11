@@ -7,7 +7,10 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            /* This links to your custom Pepsi fountain image */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.prodia.xyz/a5e0bd12-f0b1-4220-af8e-28c0353c9071.png') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,10 +19,10 @@
         }
         .container {
             text-align: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             width: 90%;
             max-width: 450px;
         }
@@ -27,7 +30,7 @@
             color: #333;
             margin-bottom: 20px;
             font-size: 1.8rem;
-            min-height: 60px; /* Prevents the box from shrinking/jumping when text changes */
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -43,7 +46,7 @@
             transition: 0.3s;
         }
         input[type="text"]:focus {
-            border-color: #004b93; /* Pepsi Blue */
+            border-color: #004b93;
             outline: none;
         }
         button {
@@ -61,7 +64,6 @@
         button:hover {
             background-color: #002f5d;
         }
-        /* Hidden state for when the input disappears */
         .hidden {
             display: none;
         }
@@ -84,21 +86,18 @@
         const sodaInput = document.getElementById('sodaInput');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Track how many times they've answered without saying Pepsi
         let stage = 1; 
 
         sodaForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevents the page from refreshing
+            e.preventDefault();
             
             const userResponse = sodaInput.value.trim();
             
-            // Check if they said "Pepsi" (ignores capital letters)
             if (userResponse.toLowerCase() === 'pepsi') {
                 triggerPepsiSequence();
                 return;
             }
 
-            // If they didn't say Pepsi, move through the stages
             if (stage === 1) {
                 questionText.innerText = "PepSI?";
                 stage = 2;
@@ -106,20 +105,17 @@
                 questionText.innerText = "PepSi, you wanted PEPSI?";
                 stage = 3;
             } else {
-                // Keep repeating this or looping back until they say Pepsi
                 questionText.innerText = "Are you sure you don't want PEPSI?";
             }
 
-            sodaInput.value = ''; // Clear the input box
+            sodaInput.value = '';
         });
 
         function triggerPepsiSequence() {
-            // Change text and completely hide the input box and button
             questionText.innerText = "ok be right back";
             sodaInput.classList.add('hidden');
             submitBtn.classList.add('hidden');
 
-            // Wait exactly 5 seconds (5000 milliseconds)
             setTimeout(function() {
                 questionText.innerText = "here is Pepsi";
             }, 5000);
